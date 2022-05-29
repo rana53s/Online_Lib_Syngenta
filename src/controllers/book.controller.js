@@ -13,10 +13,9 @@ router.post("", async (req, res) => {
 
 router.get("", async (req, res) => {
   try {
-
     let CategoryBooks = {};
-    if(req.query.category_id) {
-      CategoryBooks = {category_id: req.query.category_id}
+    if (req.query.category_id) {
+      CategoryBooks = { category_id: req.query.category_id };
     }
 
     const books = await Book.find(CategoryBooks).lean().exec();
@@ -26,18 +25,6 @@ router.get("", async (req, res) => {
   }
 });
 
-/*
-router.get("", async (req, res) => {
-  try {
-    const books = await Book.find({ category_id: req.query.category_id })
-      .lean()
-      .exec();
-    return res.status(200).send(books);
-  } catch (err) {
-    return res.status(500).send({ message: err.message });
-  }
-});
-*/
 router.get("/:id", async (req, res) => {
   try {
     const book = await Book.findById(req.params.id).lean().exec();
@@ -47,10 +34,30 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-
 router.delete("/:id", async (req, res) => {
   try {
     const book = await Book.findByIdAndDelete(req.params.id);
+    return res.status(200).send(book);
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
+
+
+router.get("/searchByAuthor/:author", async (req, res) => {
+  try {
+    let regex = new RegExp(req.params.author, 'i');
+    const book = await Book.find({ author: regex}).lean().exec();
+    return res.status(200).send(book);
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
+
+router.get("/searchByBook/:title", async (req, res) => {
+  try {
+    let regex2 = new RegExp(req.params.title, 'i');
+    const book = await Book.find({ title: regex2}).lean().exec();
     return res.status(200).send(book);
   } catch (err) {
     return res.status(500).send({ message: err.message });
