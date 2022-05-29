@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Category = require("../models/bookCategory.model");
 
+// Post Route for creatinga category of book on the DataBase
 router.post("", async (req, res) => {
   try {
     const category = await Category.create(req.body);
@@ -11,6 +12,8 @@ router.post("", async (req, res) => {
   }
 });
 
+
+// Get Route for finding all category of books from the DataBase
 router.get("", async (req, res) => {
   try {
     const categories = await Category.find().lean().exec();

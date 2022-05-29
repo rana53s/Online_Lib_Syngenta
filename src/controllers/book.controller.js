@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const Book = require("../models/book.model");
 
+
+// Post Route for creatinga book on the DataBase
 router.post("", async (req, res) => {
   try {
     const book = await Book.create(req.body);
@@ -11,6 +13,8 @@ router.post("", async (req, res) => {
   }
 });
 
+
+// Get Route for finding all books from the DataBase
 router.get("", async (req, res) => {
   try {
     let CategoryBooks = {};
@@ -25,6 +29,7 @@ router.get("", async (req, res) => {
   }
 });
 
+// Get Route for finding a particular book by its ID from the DataBase
 router.get("/:id", async (req, res) => {
   try {
     const book = await Book.findById(req.params.id).lean().exec();
@@ -34,6 +39,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// Delete Route for deleteing a book from the DataBase
 router.delete("/:id", async (req, res) => {
   try {
     const book = await Book.findByIdAndDelete(req.params.id);
@@ -43,7 +49,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-
+// Route for Searching a Book by Author
 router.get("/searchByAuthor/:author", async (req, res) => {
   try {
     let regex = new RegExp(req.params.author, 'i');
@@ -54,6 +60,8 @@ router.get("/searchByAuthor/:author", async (req, res) => {
   }
 });
 
+
+// Route for Searching a Book by Title
 router.get("/searchByBook/:title", async (req, res) => {
   try {
     let regex2 = new RegExp(req.params.title, 'i');

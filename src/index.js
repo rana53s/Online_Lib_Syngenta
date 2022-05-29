@@ -8,8 +8,10 @@ const bookController = require("./controllers/book.controller");
 const categoryController = require("./controllers/bookCategory.controller");
 
 
+// Routes for our books query
 app.use("/books", bookController);
 app.use("/category", categoryController);
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
